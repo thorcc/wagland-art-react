@@ -9,6 +9,7 @@
     "dotenv": "^8.2.0",
     "firebase": "^7.13.2",
     "react": "^16.13.1",
+    "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "styled-components": "^5.0.1"

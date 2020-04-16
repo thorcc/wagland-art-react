@@ -1,32 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { withFirebase } from '../Firebase';
 import styled from 'styled-components';
+import { DragDropContext, Draggable } from "react-beautiful-dnd";
 
-import UploadImage from './UploadImage';
+import Paintings from './Paintings';
+
 
 const Container = styled.div`
     
 `;
 
-const Paintings = styled.div`
-    width: 600px;
-    margin: auto;
-    `;
     
-    const Painting = styled.div`
-    background-color: lightgrey;
-    display: flex;
-    justify-content: space-between;
-    height: 100px;
-    width: 100%;
-    align-items: center;
-    margin: 1rem 0;
-    padding: 0 1rem;
-`;
+    
 
-const GridImg = styled.img`
-    height: 90px;
-`;
+
 
 const Art = props => {
     const [loading, setLoading] = useState(false);
@@ -49,19 +36,25 @@ const Art = props => {
 
     },[]);
 
+    const handleDragEnd = result => {
+        const { destination, source, draggableId } = result;
+    
+        if (!destination) return;
+        if (
+          destination.droppableId === source.droppableId &&
+          destination.index === source.index
+        ) return;
+      }
+
 
     return(
         <Container>
             <h3>Art</h3>
-            <Paintings>
-            {paintings.map(painting => 
-                <Painting key={painting.id}>
-                    <h4>{painting.name}</h4>
-                    <GridImg src={painting.imageUrl} />
-                </Painting>)}
-            {loading ? <Painting>Uploading image...</Painting> : null}
-            <UploadImage setLoading={setLoading} />
-            </Paintings>
+            <DragDropContext
+                onDragEnd={handleDragEnd}
+            >
+                <Paintings paintings={paintings} setLoading={setLoading} />
+            </DragDropContext>
         </Container>
 
     )

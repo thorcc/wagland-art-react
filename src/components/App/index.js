@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Art from '../Art';
+import Dnd from '../dnd';
 
 const App = () => {
 
@@ -8,7 +9,7 @@ const App = () => {
         <div>
             <h1>Roger Wagland</h1>
 
-            <Art />
+            <Dnd />
         </div>
     )
 }
