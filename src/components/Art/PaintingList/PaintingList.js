@@ -2,44 +2,48 @@ import React from "react";
 import styled from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
 
-import Painting from './Painting';
+import Painting from './Painting/Painting.js';
 
 
 const Container = styled.div`
-    border: 1px solid lightgrey;
-    border-radius: 2px;
-    width: 300px;
+    width: 800px;
     margin: auto;
     margin-top: 75px;
     background-color: 'rgb(235, 236, 240)';
 `;
-const Title = styled.h3`
-    padding: 8px;
-`;
-const PaintingList = styled.div`
+const List = styled.div`
     padding: 8px;
     transition: background-color 0.2s ease;
     background-color: ${props => props.isDraggingOver ? 'rgb(255,235,230)' : 'white'}
 `;
 
-const Column = props => {
+const PaintingList = props => {
     return (
         <Container>
-            <Title>Art</Title>
             <Droppable droppableId="1">
                 {(provided, snapshot) => (
-                    <PaintingList
+                    <List
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                     isDraggingOver={snapshot.isDraggingOver}
                     >
-                        {props.paintings.map((painting, index) => <Painting key={painting.name} name={painting.name} imageUrl={painting.imageUrl} index={index}></Painting>)}
+                        {props.paintings.map(
+                            (painting, index) => 
+                            <Painting 
+                                key={painting.id} 
+                                id={painting.id}
+                                name={painting.name} 
+                                imageUrl={painting.imageUrl} 
+                                index={index}
+                                handleUpdateName={props.handleUpdateName}
+                                >
+                            </Painting>)}
                         {provided.placeholder}
-                    </PaintingList>
+                    </List>
                 )}
             </Droppable>
         </Container>
         );
   }
 
-export default Column;
+export default PaintingList;

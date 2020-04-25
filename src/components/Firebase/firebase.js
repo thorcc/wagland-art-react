@@ -19,7 +19,8 @@ class Firebase {
 
         this.db = app.firestore();
 
-        this.paintings = this.db.collection("paintings");
+        this.paintingsColl = this.db.collection("paintings");
+        this.paintings = this.db.collection("index").doc("paintings");
                 
         this.storage = app.storage();
         this.storageRef = this.storage.ref();

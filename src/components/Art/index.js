@@ -1,63 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { withFirebase } from '../Firebase';
-import styled from 'styled-components';
-import { DragDropContext, Draggable } from "react-beautiful-dnd";
-
-import Paintings from './Paintings';
-
-
-const Container = styled.div`
-    
-`;
-
-    
-    
-
+import { DragDropContext } from "react-beautiful-dnd";
+import PaintingList from './PaintingList/PaintingList.js';
+import UploadImage from './UploadImage';
 
 
 const Art = props => {
-    const [loading, setLoading] = useState(false);
-    const [paintings, setPaintings] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [paintings, setPaintings] = useState([]);
 
 
-    useEffect(() => {
-        setLoading(true);
+  useEffect(() => {
+    setLoading(true);
+    const getPaintings = async () => {
+      const res = await props.firebase.paintings.get();
+      console.log(res.data().list)
+      const data = res.data().list;
+      setPaintings(data);
+      setLoading(false);
+    }
 
-        const unsubscribe = props.firebase.paintings.onSnapshot(snap => {
-            const data = snap.docs.map(doc => {
-                console.log(doc.data())
-                return { id: doc.id, ...doc.data() }
-            });
-            setPaintings(data);
-            setLoading(false);
-        });
+    getPaintings();
+  },[]);
 
-        return () => unsubscribe()
 
-    },[]);
+  const handleDragEnd = result => {
+    const { destination, source, draggableId } = result;
 
-    const handleDragEnd = result => {
-        const { destination, source, draggableId } = result;
+    if (!destination) return;
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) return;
     
-        if (!destination) return;
-        if (
-          destination.droppableId === source.droppableId &&
-          destination.index === source.index
-        ) return;
-      }
+    const newPaintingList = [ ...paintings ];
+    newPaintingList.splice(source.index, 1);
+    newPaintingList.splice(destination.index, 0, paintings[source.index]);
+
+    setPaintings(newPaintingList);
+    props.firebase.paintings.update({
+        list: newPaintingList//firebase.firestore.FieldValue.arrayUnion("greater_virginia")
+    });
+  }
+
+  const handleUpdateName = (newName, i) => {
+    const updatedPainting = {
+      ...paintings[i],
+      name: newName,
+    }
+
+    const newPaintingList = [...paintings];
+    newPaintingList.splice(i,1,updatedPainting);
+    setPaintings(newPaintingList);
+    props.firebase.paintings.update({
+      list: newPaintingList//firebase.firestore.FieldValue.arrayUnion("greater_virginia")
+  });
+  }
 
 
-    return(
-        <Container>
-            <h3>Art</h3>
-            <DragDropContext
-                onDragEnd={handleDragEnd}
-            >
-                <Paintings paintings={paintings} setLoading={setLoading} />
-            </DragDropContext>
-        </Container>
-
-    )
+  return(
+      <DragDropContext
+        onDragEnd={handleDragEnd}
+      >
+        
+        <PaintingList paintings={paintings} handleUpdateName={handleUpdateName}/>
+        <UploadImage setLoading={setLoading} />
+      </DragDropContext>
+  )
 }
 
 export default withFirebase(Art);

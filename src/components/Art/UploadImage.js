@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 
-import { withFirebase } from '../../../Firebase'
+import { withFirebase } from '../Firebase'
 
 const Form = styled.form`
     background-color: lightgrey;
@@ -52,9 +52,8 @@ const UploadImage = props => {
         console.log(uploadTask);
         
         // Reset file-input
-        imageInputRef.current.value = '';//Resets the file name of the file input - See #2
+        imageInputRef.current.value = '';//Resets the file name of the file input - See #2    }
     }
-
     return(
         <div>
             <Form>
@@ -75,3 +74,25 @@ const UploadImage = props => {
 }
 
 export default withFirebase(UploadImage);
+
+
+/*
+  const handleUploadStart = () => {
+    setUploading(true);
+    unsubscribe = props.firebase.paintings.onSnapshot(snap => {
+        const data = snap.docs.map(doc => {
+            console.log(doc.data())
+            return { id: doc.id, ...doc.data() }
+        });
+        setPaintings(data);
+        setUploading(false);
+    });   
+  }
+  useEffect(() => {
+    console.log(uploading, unsubscribe);
+    if (unsubscribe && !uploading) {
+      unsubscribe();
+      console.log("unsubbed");
+    };
+  }, [uploading])
+*/
