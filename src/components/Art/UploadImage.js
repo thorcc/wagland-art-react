@@ -3,6 +3,16 @@ import styled from 'styled-components';
 
 import { withFirebase } from '../Firebase'
 
+const Form = styled.div`
+    border: 1px solid lightgrey;
+    width: 800px;
+    margin: auto;
+    margin-top: 75px;
+    background-color: 'rgb(235, 236, 240)';
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+`;
 
 const Upload = styled.div`
     border: solid 1px;
@@ -12,7 +22,20 @@ const Upload = styled.div`
     transform: translateX(-50%);
     width: 300px;
     padding: 1rem;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    z-index: 200;
+    background-color: white;
 `
+
+const Overlay = styled.div`
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.5);
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+`;
 
 const UploadImage = props => {   
     const [images, setImages] = useState([]);
@@ -78,24 +101,29 @@ const UploadImage = props => {
     }
     return(
         <div>
-            <form>
-                <h4>New image</h4>
-                    <input
-                    multiple 
-                    type="file"
-                    onChange={handleFileInput}
-                    ref={imageInputRef}
-                    />
+            <Form>
+                <input
+                multiple 
+                type="file"
+                onChange={handleFileInput}
+                ref={imageInputRef}
+                />
                 <button onClick={handleFileUpload}>Upload images</button>
-            </form>
-            {showUploading ? <Upload>
-                <p>
-                    Upload {uploading? 'started' : 'finished'}
-                </p>
-                <p>
-                    Resized: {paintingsCount - beforeUploadCount }/{afterUploadCount - beforeUploadCount}
-                </p>
-            </Upload> : null}
+            </Form>
+            {showUploading ? 
+            <div>
+                <Upload>
+                    <h3>
+                        {uploading? 'Uploading' : 'Upload finished'}
+                    </h3>
+                    <p>
+                        Uploaded: {paintingsCount - beforeUploadCount }/{afterUploadCount - beforeUploadCount} images.
+                    </p>
+                    {!uploading ? <button onClick={() => setShowUploading(false)}>Close</button> : null}
+                    
+                </Upload> 
+                <Overlay />
+            </div>: null}
         </div>
     )
 }

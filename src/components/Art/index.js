@@ -12,7 +12,8 @@ const Buttons = styled.div`
 `;
 const Button = styled.div`
   margin: 1rem;
-  border-bottom: ${props => props.active ? 'solid 1px black' : 'none'}
+  border-bottom: ${props => props.active ? 'solid 1px black;' : 'none;'}
+  cursor: pointer;
 `;
 
 
