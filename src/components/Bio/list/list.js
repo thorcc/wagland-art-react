@@ -9,6 +9,7 @@ const TitleInp = styled.input`
     font-size: 1.1rem;
     font-weight: bold;
     width: 100%;
+    border: none;
 `;
 
 const ItemList = styled.ul`
@@ -18,11 +19,13 @@ const ItemList = styled.ul`
 const PointInp = styled.input`
     width: 55px;
     margin-right: 1rem;
+    border: none;
 `;
 
 const TextInp = styled.input`
     width: 400px;
     margin-left: 1rem;
+    border: none;
 `;
 
 const List = props => {

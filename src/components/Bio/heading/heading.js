@@ -9,6 +9,7 @@ const HeadingInp = styled.input`
     font-size: 1.4rem;
     font-weight: bold;
     width: 100%;
+    border: none;
 `;
 
 const Heading = props => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -7,13 +7,26 @@ const Container = styled.div`
     
 const Textarea = styled.textarea`
     width: 100%;
-    
+    height: 300px;
+    border: none;
 `
 
 const Paragraph = props => {
+    const [scrollHeight, setScrollHeight] = useState(0);
+
+    const resize = event => {
+        event.target.style.height = "auto";
+        event.target.style.height = event.target.scrollHeight + "px";
+    }
+
     return(
         <Container>
-            <textarea onChange={event => props.handleTextInput(event.target.value, props.index)} cols="80" rows="20" value={props.text} />
+            <Textarea 
+            onChange={event => props.handleTextInput(event.target.value, props.index)}  
+            value={props.text} 
+            onInput={resize}
+            onClick={resize}
+            />
         </Container>
     )
 }

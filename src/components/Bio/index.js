@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+import { withFirebase } from '../Firebase';
 import Title from './title/title';
 import Heading from './heading/heading';
 import List from './list/list';
@@ -20,8 +21,8 @@ const Buttons = styled.div`
 
 const Bio = props => {
 
-    const [info, setInfo] = useState([
-        {
+    /*
+    {
             type: 'title',
             text: 'Roger Wagland'
         },
@@ -51,16 +52,37 @@ const Bio = props => {
                 }
             ]
         }
-    ])
+    ]
+    */ 
+
+    const [info, setInfo] = useState([]);
+
+    useEffect(() => {
+    
+        const getBio = async () => {
+          const res = await props.firebase.bio.get();
+          console.log(res.data().list)
+          const data = res.data().list;
+          setInfo(data);
+        }
+    
+        getBio();
+      },[]);
+
+    useEffect(() => {
+        if(info.length > 0){
+            props.firebase.bio.update({
+                list: info
+              });
+        }
+    },[info])
+
 
     const updateInfo = (updatedInfo, i) => {
         const newInfoList = [...info];
         newInfoList.splice(i,1,updatedInfo);
         setInfo(newInfoList);
-        /*
-        props.firebase.paintings.update({
-          list: newPaintingList//firebase.firestore.FieldValue.arrayUnion("greater_virginia")
-        });*/
+
     }
 
     const handleTextInput = (newText, i) => {
@@ -158,4 +180,4 @@ const Bio = props => {
     )
 }
 
-export default Bio;
+export default withFirebase(Bio);

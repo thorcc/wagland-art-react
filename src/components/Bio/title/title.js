@@ -9,6 +9,7 @@ const TitleInp = styled.input`
     width: 100%;
     font-size: 1.8rem;
     font-weight: bold;
+    border: none;
 `;
 
 const Title = props => {
