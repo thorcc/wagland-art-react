@@ -1,0 +1,50 @@
+.Nav {
+    background-color: #3B3939;
+    border-bottom: #707070 1px solid;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
+.Nav ul{
+  list-style-type: none;
+  display: flex;
+}
+.Nav a{
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
+}
+.Nav a.icon{
+  background: #272525;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.Nav .logo{
+  width: fit-content;
+}
+.active {
+  background-color: #111;
+  color: white;
+}
+
+  @media only screen and (min-width: 768px) {
+    .Nav{
+      display: flex;
+      z-index: 1;
+    }
+    .Nav .NavLinks{
+      display: flex;
+      flex-direction: row;
+      z-index: 9;
+    }
+    .Nav a.icon{
+      display: none;
+    }
+  }
+  
