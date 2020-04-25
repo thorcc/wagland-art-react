@@ -1,98 +1,103 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { withFirebase } from '../Firebase'
 
-const Form = styled.form`
-    background-color: lightgrey;
-    display: flex;
-    justify-content: space-between;
-    height: 100px;
-    width: 100%;
-    align-items: center;
-    margin: 1rem 0;
-    padding: 0 1rem;
-`;
-const Container = styled.div`
-    position: relative;
-`;
-const Label = styled.label`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    font-size: 32px;
-    border-radius: 1rem;
-    width: 90px;
-    height: 90px;
-    cursor: pointer;
-`;
-const Input = styled.input`
-    opacity: 0;
+
+const Upload = styled.div`
+    border: solid 1px;
     position: absolute;
-    width: 0;
-    height: 0;
-`;
+    left: 50%;
+    top: 10px;
+    transform: translateX(-50%);
+    width: 300px;
+    padding: 1rem;
+`
 
 const UploadImage = props => {   
-    const imageInputRef = useRef();
+    const [images, setImages] = useState([]);
+    const [error, setError] = useState('');
 
     
-    const handleUpload = async event => {
-        const image = event.target.files[0];
-        //setImageAsFile(imageFile => (image));
+    const [uploading, setUploading] = useState(false);
+    const [showUploading, setShowUploading] = useState(false);
 
-        console.log('start of upload');
-        props.setLoading(true);
-        if(image === '' ) {
-            console.error(`not an image, the image file is a ${typeof(image)}`)
-            props.setLoading(false);
+    const [paintingsCount, setPaintingsCount] = useState(0);
+    const [beforeUploadCount, setBeforeUploadCount] = useState(0)
+    const [afterUploadCount, setAfterUploadCount] = useState(0);
+
+    
+    const imageInputRef = useRef();
+
+
+    useEffect(() => {
+        const unsubscribe = props.firebase.paintings.onSnapshot(snap => {
+            if(snap.data().list){
+                setPaintingsCount(snap.data().list.length);
+            }
+        });  
+        return () => unsubscribe();
+      },[])
+
+      useEffect(() => {
+          if(uploading && paintingsCount >= afterUploadCount){
+            setUploading(false);
+          }
+      }, [paintingsCount])
+    
+    const handleFileInput = event => {
+        setImages(Array.from(event.target.files));
+    }
+
+    const handleFileUpload = async event => {
+        event.preventDefault();
+        if(images.length === 0){
+            setError('No files selected');
+            return;
         }
-        const uploadTask = await props.firebase.uploadImage(image, image.name);
-        console.log(uploadTask);
+        setShowUploading(true);
+        setUploading(true);
+        setBeforeUploadCount(paintingsCount);
+        setAfterUploadCount(images.length + paintingsCount);
         
+
+        for (const img of images){
+            if(img === '' ) {
+                console.error(`not an image, the image file is a ${typeof(image)}`)
+                props.setLoading(false);
+            }
+            try{
+                props.firebase.uploadImage(img, img.name);
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
         // Reset file-input
         imageInputRef.current.value = '';//Resets the file name of the file input - See #2    }
     }
     return(
         <div>
-            <Form>
+            <form>
                 <h4>New image</h4>
-                <Container>
-                    <Label>
-                        +
-                        <Input 
-                        type="file"
-                        onChange={handleUpload}
-                        ref={imageInputRef}
-                        />
-                    </Label>  
-                </Container>
-            </Form>
+                    <input
+                    multiple 
+                    type="file"
+                    onChange={handleFileInput}
+                    ref={imageInputRef}
+                    />
+                <button onClick={handleFileUpload}>Upload images</button>
+            </form>
+            {showUploading ? <Upload>
+                <p>
+                    Upload {uploading? 'started' : 'finished'}
+                </p>
+                <p>
+                    Resized: {paintingsCount - beforeUploadCount }/{afterUploadCount - beforeUploadCount}
+                </p>
+            </Upload> : null}
         </div>
     )
 }
 
 export default withFirebase(UploadImage);
-
-
-/*
-  const handleUploadStart = () => {
-    setUploading(true);
-    unsubscribe = props.firebase.paintings.onSnapshot(snap => {
-        const data = snap.docs.map(doc => {
-            console.log(doc.data())
-            return { id: doc.id, ...doc.data() }
-        });
-        setPaintings(data);
-        setUploading(false);
-    });   
-  }
-  useEffect(() => {
-    console.log(uploading, unsubscribe);
-    if (unsubscribe && !uploading) {
-      unsubscribe();
-      console.log("unsubbed");
-    };
-  }, [uploading])
-*/

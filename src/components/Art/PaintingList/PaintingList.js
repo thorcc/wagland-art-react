@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
-import { Droppable } from 'react-beautiful-dnd';
+import { DragDropContext,Droppable } from 'react-beautiful-dnd';
+import { withFirebase } from '../../Firebase';
 
 import Painting from './Painting/Painting.js';
 
@@ -18,32 +19,88 @@ const List = styled.div`
 `;
 
 const PaintingList = props => {
+    const [paintings, setPaintings] = useState([]);
+
+    useEffect(() => {
+    
+        const getPaintings = async () => {
+          const res = await props.firebase.paintings.get();
+          console.log(res.data().list)
+          const data = res.data().list;
+          setPaintings(data);
+        }
+    
+        getPaintings();
+      },[]);
+
+
+
+
+    const handleDragEnd = result => {
+        const { destination, source, draggableId } = result;
+
+        if (!destination) return;
+        if (
+            destination.droppableId === source.droppableId &&
+            destination.index === source.index
+        ) return;
+
+        const newPaintingList = [ ...paintings ];
+        newPaintingList.splice(source.index, 1);
+        newPaintingList.splice(destination.index, 0, paintings[source.index]);
+
+        setPaintings(newPaintingList);
+        props.firebase.paintings.update({
+            list: newPaintingList//firebase.firestore.FieldValue.arrayUnion("greater_virginia")
+        });
+    }
+
+    const handleUpdateName = (newName, i) => {
+        const updatedPainting = {
+          ...paintings[i],
+          name: newName,
+        }
+    
+        const newPaintingList = [...paintings];
+        newPaintingList.splice(i,1,updatedPainting);
+        setPaintings(newPaintingList);
+        props.firebase.paintings.update({
+          list: newPaintingList//firebase.firestore.FieldValue.arrayUnion("greater_virginia")
+        });
+    }
+
     return (
-        <Container>
-            <Droppable droppableId="1">
-                {(provided, snapshot) => (
-                    <List
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    isDraggingOver={snapshot.isDraggingOver}
-                    >
-                        {props.paintings.map(
-                            (painting, index) => 
-                            <Painting 
-                                key={painting.id} 
-                                id={painting.id}
-                                name={painting.name} 
-                                imageUrl={painting.imageUrl} 
-                                index={index}
-                                handleUpdateName={props.handleUpdateName}
-                                >
-                            </Painting>)}
-                        {provided.placeholder}
-                    </List>
-                )}
-            </Droppable>
-        </Container>
+
+        <DragDropContext
+        onDragEnd={handleDragEnd}
+      >
+      
+            <Container>
+                <Droppable droppableId="1">
+                    {(provided, snapshot) => (
+                        <List
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        isDraggingOver={snapshot.isDraggingOver}
+                        >
+                            {paintings.map(
+                                (painting, index) => 
+                                <Painting 
+                                    key={painting.id} 
+                                    id={painting.id}
+                                    name={painting.name} 
+                                    imageUrl={painting.imageUrl} 
+                                    index={index}
+                                    handleUpdateName={handleUpdateName}
+                                    >
+                                </Painting>)}
+                            {provided.placeholder}
+                        </List>
+                    )}
+                </Droppable>
+            </Container>
+        </DragDropContext>
         );
   }
 
-export default PaintingList;
+export default withFirebase(PaintingList);
