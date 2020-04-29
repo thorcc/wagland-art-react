@@ -11,6 +11,9 @@ const Container = styled.div`
     width: 750px;
     margin: auto;
 `;
+const ItemContainer = styled.div`
+    border: 1px solid lightgrey;
+`;
 
 const Buttons = styled.div`
     display: flex;
@@ -22,7 +25,8 @@ const Buttons = styled.div`
 const Bio = props => {
 
     /*
-    {
+    [
+        {
             type: 'title',
             text: 'Roger Wagland'
         },
@@ -148,28 +152,42 @@ const Bio = props => {
         updateInfo(updatedInfo, index);
     }
 
+    const remove = index => {
+        const newList = [ ...info ];
+        newList.splice(index,1);
+        setInfo(newList);
+    }
+
+    const items = info.map((item, index) => {
+        switch(item.type){
+            case 'title':
+                return <Title key={index} handleTextInput={handleTextInput} index={index} text={item.text} />
+            case 'heading':
+                return <Heading key={index} handleTextInput={handleTextInput} index={index} text={item.text} remove={remove} />
+            case 'paragraph':
+                return <Paragraph key={index} handleTextInput={handleTextInput} index={index} text={item.text} remove={remove} />
+            case 'list':
+                return <List 
+                    key={index} 
+                    index={index} 
+                    text={item.text} 
+                    list={item.list}
+                    handleListPointInput={handleListPointInput} 
+                    handleTextInput={handleTextInput} 
+                    createPoint={createPoint}
+                    remove={remove}
+                    />
+        }
+    })
+
     return(
         <Container>
-            {info.map( (item, index) => {
-                switch(item.type){
-                    case 'title':
-                        return <Title key={index} handleTextInput={handleTextInput} index={index} text={item.text} />
-                    case 'heading':
-                        return <Heading key={index} handleTextInput={handleTextInput} index={index} text={item.text} />
-                    case 'paragraph':
-                        return <Paragraph key={index} handleTextInput={handleTextInput} index={index} text={item.text} />
-                    case 'list':
-                        return <List 
-                            key={index} 
-                            index={index} 
-                            text={item.text} 
-                            list={item.list}
-                            handleListPointInput={handleListPointInput} 
-                            handleTextInput={handleTextInput} 
-                            createPoint={createPoint}
-                            />
-                }
-            })}
+            {items.map((item, index) => (
+                <ItemContainer>
+                    <button onClick={()=> remove(index)}>Remove</button>
+                    {item}
+                </ItemContainer>
+            ))}
             <Buttons>
                 <button onClick={() => createNew('title')}>New title</button>
                 <button onClick={() => createNew('paragraph')}>New paragraph</button>
