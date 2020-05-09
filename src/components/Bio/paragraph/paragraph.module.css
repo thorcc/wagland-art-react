@@ -1,0 +1,9 @@
+.TextArea{
+    width: 100%;
+    border: none;
+}
+.Container{
+    margin: 1rem auto;
+    width: 90%;
+    background-color: white;;
+}

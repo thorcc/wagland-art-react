@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
     margin: 1rem;
+    background-color: white;
 `;
 
 const TitleInp = styled.input`
