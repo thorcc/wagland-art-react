@@ -20,8 +20,8 @@ const Button = styled.div`
 const Art = props => {
   const [loading, setLoading] = useState(false);
 
-  const [showPaintings, setShowPaintings] = useState(false);
-  const [showUpload, setShowUpload] = useState(true);
+  const [showPaintings, setShowPaintings] = useState(true);
+  const [showUpload, setShowUpload] = useState(false);
 
   return(
     <Container>
