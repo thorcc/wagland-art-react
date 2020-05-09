@@ -1,7 +1,9 @@
 import React from 'react';
+import { withFirebase } from '../Firebase';
+import TextPage from '../TextPage'; 
 
-const contact = () => (
-    <div>Contact</div>
+const contact = props => (
+    <TextPage firebase={props.firebase.contact}/>
 )
 
-export default contact;
+export default withFirebase(contact);

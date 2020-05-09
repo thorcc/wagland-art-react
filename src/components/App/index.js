@@ -22,8 +22,7 @@ const App = () => {
 
     return(
         <Router>
-                <Nav />
-
+            <Nav />
             <Container>
                 <Switch>
                     <Route path="/bio">
