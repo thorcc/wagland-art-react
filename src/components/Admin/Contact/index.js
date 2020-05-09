@@ -1,5 +1,5 @@
 import React from 'react';
-import { withFirebase } from '../Firebase';
+import { withFirebase } from '../../Firebase';
 import TextPage from '../TextPage'; 
 
 const contact = props => (

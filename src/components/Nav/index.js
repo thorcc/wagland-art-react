@@ -4,7 +4,7 @@ import styles from './style.module.css';
 
 
 
-const Nav = () => {
+const Nav = props => {
     return(
         <nav className={styles.Nav}>
             <ul>
@@ -21,6 +21,22 @@ const Nav = () => {
                     <NavLink exact={true} to="/contact" activeClassName={styles.active}>Contact</NavLink>
                 </li>
             </ul>
+
+            {props.admin ? 
+                <ul>
+                    <li>
+                        <NavLink exact={true} to="/admin/" activeClassName={styles.active}>Art</NavLink>
+                    </li>
+                    <li>
+                        <NavLink exact={true} to="/admin/bio" activeClassName={styles.active}>Biography</NavLink>
+                    </li>
+                    <li>
+                        <NavLink exact={true} to="/admin/guest-book" activeClassName={styles.active}>Guest Book</NavLink>
+                    </li>
+                    <li>
+                        <NavLink exact={true} to="/admin/contact" activeClassName={styles.active}>Contact</NavLink>
+                    </li> 
+                </ul>: null}
         </nav>
     )
 }

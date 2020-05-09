@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import { DragDropContext,Droppable } from 'react-beautiful-dnd';
-import { withFirebase } from '../../Firebase';
+import { withFirebase } from '../../../Firebase';
 
 import Painting from './Painting/Painting.js';
 

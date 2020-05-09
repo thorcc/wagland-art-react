@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from 'uuid';
 
-import { withFirebase } from '../Firebase';
 import Title from './title/title';
 import Heading from './heading/heading';
 import List from './list/list';

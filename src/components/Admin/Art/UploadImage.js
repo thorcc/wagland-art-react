@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { withFirebase } from '../Firebase'
+import { withFirebase } from '../../Firebase'
 
 const Form = styled.div`
     border: 1px solid lightgrey;

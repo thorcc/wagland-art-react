@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-import { withFirebase } from '../../../Firebase';
+import { withFirebase } from '../../../../Firebase';
 
 const Container = styled.div`
     border: 1px solid lightgrey;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -7,10 +7,10 @@ import {
 
 import styled from 'styled-components';
 
-import Art from '../Art';
-import Bio from '../Bio';
-import Contact from '../Contact';
-import GuestBook from '../GuestBook';
+import AdminArt from '../Admin/Art';
+import AdminBio from '../Admin/Bio';
+import AdminContact from '../Admin/Contact';
+import AdminGuestBook from '../Admin/GuestBook';
 import Nav from '../Nav';
 
 const Container = styled.div`
@@ -19,23 +19,24 @@ const Container = styled.div`
 
 const App = () => {
     
+    const [admin, setAdmin] = useState(true);
 
     return(
         <Router>
-            <Nav />
+            <Nav admin={admin}/>
             <Container>
                 <Switch>
-                    <Route path="/bio">
-                        <Bio />
+                    <Route path="/admin/bio">
+                        <AdminBio />
                     </Route>
-                    <Route path="/guest-book">
-                        <GuestBook />
+                    <Route path="/admin/guest-book">
+                        <AdminGuestBook />
                     </Route>
-                    <Route path="/contact">
-                        <Contact />
+                    <Route path="/admin/contact">
+                        <AdminContact />
                     </Route>
-                    <Route path="/">
-                        <Art />
+                    <Route path="/admin/">
+                        <AdminArt />
                     </Route>
                 </Switch>
             </Container>
