@@ -42,41 +42,6 @@ const reorder = (list, startIndex, endIndex) => {
 
 const Bio = props => {
 
-    /*
-    [
-        {
-            type: 'title',
-            text: 'Roger Wagland'
-        },
-        {
-            type: 'paragraph',
-            text: `Roger Wagland er fødd i Sheffield i England i 1953. I 1978 flytta han til Norge og er no busett på Hareid. Han har også budd i Skottland, Tyskland og Botswana. Møte med ulike menneske og kulturar har vore ei stor inspirasjonskjelde for han. Roger Wagland arbeider med ulike former for kunst; bilete, musikk, video/film, skulptur og installasjon. Han har kunstutdanning frå Voss kunst- og handverkskule og Oslo tegne- og maleskole. Han har hatt fleire separatutstillingar, har delteke på mange kollektivutstillingar og har hatt fleire andre kunstoppdrag. Den første separatutstillinga hadde han i 1996 i Ulstein kunstlag. Same år var han ein av tre utstillarar for dronning Sonja i Ulsteinvik. Han er også kunstnaren av det første rundkøyringsmonumentet i Møre og Romsdal, "Tidskifte", i Hareid sentrum.`
-        },
-        {
-            type: 'heading',
-            text: 'Oversikt over utstillingar og kunstoppdrag:'
-        },
-        {
-            type: 'list',
-            text: 'Separatutstillingar:',
-            list: [
-                {
-                    point: '1996',
-                    text: 'Ulstein kunstlag, Ulsteinvik'
-                },
-                {
-                    point: '1997',
-                    text: 'Hareid kunstlag, Hareid'
-                },
-                {
-                    point: '2009',
-                    text: 'Galleri Brødrene Vik, Syvde'
-                }
-            ]
-        }
-    ]
-    */ 
-
     const [info, setInfo] = useState([]);
 
     useEffect(() => {
@@ -179,6 +144,33 @@ const Bio = props => {
         setInfo(newList);
     }
 
+    const removePoint = (listIndex, pointIndex) => {
+        const newList = [ ...info[listIndex].list ];
+        newList.splice(pointIndex,1);
+        
+        const updatedInfo = {
+            ...info[listIndex],
+            list: newList,
+        }
+
+        updateInfo(updatedInfo, listIndex);
+    }
+
+    const updateListOrder = (listIndex, sourceIndex, destIndex) => {
+        const newItems = reorder(
+            info[listIndex].list,
+            sourceIndex,
+            destIndex
+        );
+
+        const updatedInfo = {
+            ...info[listIndex],
+            list: newItems,
+        }
+
+        updateInfo(updatedInfo, listIndex);
+    }
+
     const items = info.map((item, index) => {
         switch(item.type){
             case 'title':
@@ -198,6 +190,8 @@ const Bio = props => {
                     handleTextInput={handleTextInput} 
                     createPoint={createPoint}
                     remove={remove}
+                    removePoint={removePoint}
+                    updateListOrder={updateListOrder}
                     />
         }
     })
