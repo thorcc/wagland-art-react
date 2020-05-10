@@ -1,0 +1,13 @@
+.title{
+    font-size: 2rem;
+}
+.heading, .list h3{
+    font-size: 1.3rem;
+}
+.paragraph{
+
+}
+
+.list ul{
+    list-style-type: none;
+}
