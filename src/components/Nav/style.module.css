@@ -11,6 +11,7 @@
   list-style-type: none;
   display: flex;
   width: 100%;
+  margin: 0;
 }
 .Nav a{
   color: white;
@@ -18,6 +19,8 @@
   text-decoration: none;
   font-size: 17px;
   display: block;
+  height: 100%;
+  box-sizing: border-box;
 }
 .Nav a.icon{
   background: #272525;
