@@ -42,6 +42,7 @@
   .divPainting{
     display: flex;
     flex-direction: column;
+    cursor: pointer;
   }
   .divPainting a{
     order: 2;

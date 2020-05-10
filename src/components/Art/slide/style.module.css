@@ -1,0 +1,42 @@
+.Container{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.9);
+    z-index: 100;
+}
+.Img{
+    object-fit: scale-down;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.Next:hover svg, .Prev:hover svg, .Close:hover svg{
+    transform: scale(1.1);
+}
+.Close{
+    position: absolute;
+    left:0;
+    top:0;
+    transition: 0.1s;
+    cursor: pointer;
+}
+.Next{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: 0.1s;
+    cursor: pointer;
+}
+.Prev{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: 0.1s;
+    cursor: pointer;
+}
