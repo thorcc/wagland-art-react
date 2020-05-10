@@ -22,6 +22,7 @@ const NavNonAuth = props => {
 
     return(
         <nav className={styles.Nav}>
+            <a className={styles.logo} href="./" class="logo">RW</a>
             <ul>
                 <li>
                     <NavLink exact={true} to={ROUTES.LANDING} activeClassName={styles.active}>Art</NavLink>

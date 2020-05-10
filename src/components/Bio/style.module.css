@@ -2,6 +2,12 @@
     max-width: 700px;
     margin: auto;
 }
+.Portrait{
+    width: 100%;
+    max-width: 500px;
+    display: block;
+    margin: auto;
+}
 
 @media screen and (max-width: 700px){
     .Container{

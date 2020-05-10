@@ -12,6 +12,7 @@
   display: flex;
   width: 100%;
   margin: 0;
+  padding: 0;
 }
 .Nav a{
   color: white;
@@ -29,8 +30,9 @@
   right: 0;
   top: 0;
 }
-.Nav .logo{
+.logo{
   width: fit-content;
+  font-weight: 900;
 }
 .active {
   background-color: #111;

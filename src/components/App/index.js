@@ -33,6 +33,7 @@ const App = props => {
         <Router>
             <Nav />
             <Container>
+              <h1 className="title">ROGER WAGLAND</h1>
                 <Switch>
                     <Route exact path={ROUTES.LANDING} component={Art} />
                     <Route path={ROUTES.BIO} component={Bio} />
