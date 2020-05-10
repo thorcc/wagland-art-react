@@ -1,6 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/storage';
+import 'firebase/auth';
 
 const config = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -25,23 +26,29 @@ class Firebase {
         this.contact = this.db.collection("index").doc("contact")       
         this.storage = app.storage();
         this.storageRef = this.storage.ref();
+        this.auth = app.auth();
 
         this.uploadImage = async (file, name) =>  {
             try{
                 const storRes = await this.storage.ref().child(file.name).put(file);
-                /*const dbRes = await this.paintings.add({
-                    name,
-                    imageUrl
-                });
-                */
                 return `Image added succesfully.`
             }
             catch(err){
                 return err;
             }
         }
-
     }
+    // *** Auth API ***
+ 
+    doCreateUserWithEmailAndPassword = (email, password) => this.auth.createUserWithEmailAndPassword(email, password);
+
+    doSignInWithEmailAndPassword = (email, password) => this.auth.signInWithEmailAndPassword(email, password);
+
+    doSignOut = () => this.auth.signOut();
+
+    doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
+ 
+    doPasswordUpdate = password => this.auth.currentUser.updatePassword(password);
 }
 
 export default Firebase;

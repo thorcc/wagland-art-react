@@ -1,44 +1,59 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+
+import * as ROUTES from '../../constants/routes';
+
 import styles from './style.module.css';
+import SignOutButton from '../Admin/SignOutButton';
 
+const Nav = ({ user }) => (
+    <div>
+        {user ? <NavAuth user={user}/> :<NavNonAuth />}
+    </div>
+)
 
+const NavNonAuth = props => {
 
-const Nav = props => {
     return(
         <nav className={styles.Nav}>
             <ul>
                 <li>
-                    <NavLink exact={true} to="/" activeClassName={styles.active}>Art</NavLink>
+                    <NavLink exact={true} to={ROUTES.LANDING} activeClassName={styles.active}>Art</NavLink>
                 </li>
                 <li>
-                    <NavLink exact={true} to="/bio" activeClassName={styles.active}>Biography</NavLink>
+                    <NavLink exact={true} to={ROUTES.BIO} activeClassName={styles.active}>Biography</NavLink>
                 </li>
                 <li>
-                    <NavLink exact={true} to="/guest-book" activeClassName={styles.active}>Guest Book</NavLink>
+                    <NavLink exact={true} to={ROUTES.GUEST_BOOK} activeClassName={styles.active}>Guest Book</NavLink>
                 </li>
                 <li>
-                    <NavLink exact={true} to="/contact" activeClassName={styles.active}>Contact</NavLink>
+                    <NavLink exact={true} to={ROUTES.CONTACT} activeClassName={styles.active}>Contact</NavLink>
                 </li>
             </ul>
-
-            {props.admin ? 
-                <ul>
-                    <li>
-                        <NavLink exact={true} to="/admin/" activeClassName={styles.active}>Art</NavLink>
-                    </li>
-                    <li>
-                        <NavLink exact={true} to="/admin/bio" activeClassName={styles.active}>Biography</NavLink>
-                    </li>
-                    <li>
-                        <NavLink exact={true} to="/admin/guest-book" activeClassName={styles.active}>Guest Book</NavLink>
-                    </li>
-                    <li>
-                        <NavLink exact={true} to="/admin/contact" activeClassName={styles.active}>Contact</NavLink>
-                    </li> 
-                </ul>: null}
         </nav>
     )
 }
 
+const NavAuth = ({ user }) => (
+    <nav className={styles.Nav}>
+        <ul>
+            <li>
+                <NavLink exact={true} to={ROUTES.ADMINART} activeClassName={styles.active}>Art</NavLink>
+            </li>
+            <li>
+                <NavLink exact={true} to={ROUTES.ADMINBIO} activeClassName={styles.active}>Biography</NavLink>
+            </li>
+            <li>
+                <NavLink exact={true} to={ROUTES.ADMINGUESTBOOK} activeClassName={styles.active}>Guest Book</NavLink>
+            </li>
+            <li>
+                <NavLink exact={true} to={ROUTES.ADMINCONTACT} activeClassName={styles.active}>Contact</NavLink>
+            </li>
+            <li className={styles.UserInfo}>
+                <p>{user.email}</p>
+                <SignOutButton />
+            </li>
+        </ul>
+    </nav>
+)
 export default Nav;
