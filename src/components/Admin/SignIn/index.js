@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
 import { withFirebase } from '../../Firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+
 
 const SignIn = props => {
+    const [user, initialising, error] = useAuthState(props.firebase.auth);
+    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        try{
-            const user = await props.firebase.doSignInWithEmailAndPassword(email, password);
-            console.log(user);
+            await props.firebase.doSignInWithEmailAndPassword(email, password);
             setEmail('');
             setPassword('');
-        }
-        catch(err){
-            setError(err);
-        }
     }
     const onPassChange = (event) => {
         setPassword(event.target.value);
@@ -25,25 +22,25 @@ const SignIn = props => {
         setEmail(event.target.value);
     }
 
-    if(props.initialising){
+    if(initialising){
         return (
             <div>
               <p>Initialising User...</p>
             </div>
           );
     }
-    if (props.error) {
+    if (error) {
         return (
           <div>
             <p>Error: {error}</p>
           </div>
         );
     }
-    if (props.user) {
+    if (user) {
         console.log(props.user)
         return (
           <div>
-            <p>Current User: {props.user.email}</p>
+            <p>Current User: {user.email}</p>
             <button onClick={props.firebase.doSignOut}>Log out</button>
           </div>
         );

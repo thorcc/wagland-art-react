@@ -27,21 +27,17 @@ const Container = styled.div`
 `;
 
 const App = props => {
-    const [user, initialising, error] = useAuthState(props.firebase.auth);
-    const [authUser, setAuthUser] = useState(null);
 
     return(
         <Router>
-            <Nav user={user} />
+            <Nav />
             <Container>
                 <Switch>
                     <Route exact path={ROUTES.LANDING} component={Art} />
                     <Route path={ROUTES.BIO} component={Bio} />
                     <Route path={ROUTES.GUEST_BOOK} component={GuestBook} />
                     <Route path={ROUTES.CONTACT} component={Contact} />
-                    <Route exact path={ROUTES.ADMINLANDING}>
-                        <SignIn user={user} initialising={initialising} error={error}/>
-                    </Route>
+                    <Route exact path={ROUTES.ADMINLANDING} component={SignIn} />
                     <Route path={ROUTES.ADMINART} component={AdminArt} />
                     <Route path={ROUTES.ADMINBIO} component={AdminBio} />
                     <Route path={ROUTES.ADMINGUESTBOOK} component={AdminGuestBook} />

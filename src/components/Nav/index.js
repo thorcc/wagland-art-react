@@ -1,16 +1,22 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { withFirebase } from '../Firebase';
+
 
 import * as ROUTES from '../../constants/routes';
 
 import styles from './style.module.css';
 import SignOutButton from '../Admin/SignOutButton';
 
-const Nav = ({ user }) => (
-    <div>
-        {user ? <NavAuth user={user}/> :<NavNonAuth />}
-    </div>
-)
+const Nav = props => {
+    const [user, initialising, error] = useAuthState(props.firebase.auth);
+
+    return( 
+        <div>
+            {user ? <NavAuth user={user}/> :<NavNonAuth />}
+        </div>)
+}
 
 const NavNonAuth = props => {
 
@@ -56,4 +62,4 @@ const NavAuth = ({ user }) => (
         </ul>
     </nav>
 )
-export default Nav;
+export default withFirebase(Nav);
