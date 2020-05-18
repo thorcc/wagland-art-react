@@ -32,13 +32,16 @@
 .InpInfo > div{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 .InpInfo input{
-    min-width: 300px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .Button{
     height: 41px;
+    margin-left: 1rem;
 }
 .Comment{
     max-width: 700px;
