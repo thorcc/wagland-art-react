@@ -28,24 +28,24 @@ const Slide = props => {
             src={props.paintings[props.slideNo].imageUrl} 
             alt={props.paintings[props.slideNo].name} 
         />
-        <div 
+        <button 
             className={classes.Close}
             onClick={props.hideSlide}
         >
             <CloseIcon />
-        </div>
-        <div 
+        </button>
+        <button 
             className={classes.Next}
             onClick={props.nextSlide}
         >
             <NextIcon  />
-        </div>
-        <div 
+        </button>
+        <button 
             className={classes.Prev}
             onClick={props.prevSlide}
         >
             <Previcon />
-        </div>
+        </button>
     </div>
     )
 }

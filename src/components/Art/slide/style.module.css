@@ -7,6 +7,15 @@
     background-color: rgba(0,0,0,0.9);
     z-index: 100;
 }
+.Container button{
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
 .Img{
     object-fit: scale-down;
     position: absolute;
