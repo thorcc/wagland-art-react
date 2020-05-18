@@ -9,7 +9,6 @@
   }
 .Nav ul{
   list-style-type: none;
-  display: flex;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -34,6 +33,27 @@
   width: fit-content;
   font-weight: 900;
 }
+.LogoBurger{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.Burger{
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+.OpenNav{
+  display: flex;
+  flex-direction: column;
+}
+.ClosedNav{
+  display: none
+}
 .active {
   background-color: #111;
   color: white;
@@ -49,6 +69,13 @@
 }
 
   @media only screen and (min-width: 768px) {
+    .Burger{
+      display: none;
+    }
+    .Nav .OpenNav, .Nav .ClosedNav{
+      display: flex;
+      flex-direction: row;
+    }
     .Nav{
       display: flex;
       z-index: 1;
