@@ -47,7 +47,7 @@ const App = props => {
                     <Route path={ROUTES.ADMINBIO} component={AdminBio} />
                     )}
                     {user && (
-                    <Route path={ROUTES.ADMINGUESTBOOK} component={AdminGuestBook} />
+                    <Route path={ROUTES.ADMINGUESTBOOK} component={GuestBook} />
                     )}
                     {user && (
                     <Route path={ROUTES.ADMINCONTACT} component={AdminContact} />

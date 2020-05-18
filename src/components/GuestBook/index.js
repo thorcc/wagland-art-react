@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { withFirebase } from '../Firebase';
 import classes from './style.module.css'; 
+import { useAuthState } from 'react-firebase-hooks/auth';
+
  
 
 const GuestBook = props => {
@@ -9,12 +11,13 @@ const GuestBook = props => {
     const [name, setName] = useState('');
     const [mail, setMail] = useState('');
 
+    const [user, initialising, error] = useAuthState(props.firebase.auth);
 
 
     useEffect(() => {
         const unsubscribe = props.firebase.guestBook.orderBy('date','desc').onSnapshot(async data => {
           const list = data.docs.map(comment => {
-              return { ...comment.data(), date: comment.data().date.toDate().toLocaleDateString()}
+              return { ...comment.data(), id: comment.id, date: comment.data().date.toDate().toLocaleDateString()}
           })
           setComments(list);
         });
@@ -35,6 +38,10 @@ const GuestBook = props => {
         setMail('');
     }
 
+    const removeComment = (id) => {
+        props.firebase.guestBook.doc(id).delete();
+    }
+
     return(
         <div>
             <form onSubmit={(evt) => handleSubmit(evt)} className={classes.Form}>
@@ -49,10 +56,11 @@ const GuestBook = props => {
             </form>
 
            {comments.map((comment) => (
-               <div className={classes.Comment} key={comment.date}>
+               <div className={classes.Comment} key={comment.id}>
                     <div className={classes.Info}>
                         <div className={classes.Name}>{comment.name}</div>
                         <div className={classes.Date}>{comment.date}</div>
+                        {user ? <button onClick={() => removeComment(comment.id)} className={classes.Remove}>X</button> : null}
                     </div>
                     <div className={classes.Message}>{comment.message}</div>
                </div>
