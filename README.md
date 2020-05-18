@@ -1,6 +1,6 @@
 # [wagland.art](https://wagland.art)
 
-Portfolio website for the painter Roger Wagland. Single-page application with public-, and admin site.
+Portfolio website for the painter Roger Wagland.
 
 ## Stack
 - Front-end: React
