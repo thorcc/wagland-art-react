@@ -33,7 +33,7 @@ const NavNonAuth = props => {
                     <Burger />
                 </button>
             </div>
-            <ul className={open ? classes.OpenNav: classes.ClosedNav}>
+            <ul onClick={() => setOpen(false)} className={open ? classes.OpenNav: classes.ClosedNav}>
                 <li>
                     <NavLink exact={true} to={ROUTES.LANDING} activeClassName={styles.active}>Art</NavLink>
                 </li>
@@ -62,7 +62,7 @@ const NavAuth = ({ user }) => {
                     <Burger />
                 </button>
             </div>
-            <ul className={open ? classes.OpenNav: classes.ClosedNav}>
+            <ul onClick={() => setOpen(false)} className={open ? classes.OpenNav: classes.ClosedNav}>
                 <li>
                     <NavLink exact={true} to={ROUTES.ADMINART} activeClassName={styles.active}>Art</NavLink>
                 </li>
