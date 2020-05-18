@@ -39,6 +39,9 @@ const NameInp = styled.input`
     width: 100%;
     border-radius: 0.1rem;
 `;
+const Button = styled.button`
+    margin-left: auto;
+`;
 
 const Painting = props => {
 
@@ -64,6 +67,7 @@ const Painting = props => {
                         <Label>title</Label>
                         <NameInp type="text" value={inpName} onChange={e => setInpName(e.target.value)} />
                     </NameContainer>
+                    <Button onClick={() => props.removeImage(props.index, props.storageDestination)}>X</Button>
                     <Image src={props.imageUrl} />
                 </Container>   
             )}

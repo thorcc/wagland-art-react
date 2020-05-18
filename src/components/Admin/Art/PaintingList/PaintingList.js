@@ -69,6 +69,17 @@ const PaintingList = props => {
         });
     }
 
+    const removeImage = (i, storageDestination) => {
+        const newPaintingList = [...paintings];
+        newPaintingList.splice(i,1);
+        setPaintings(newPaintingList);
+        props.firebase.paintings.update({
+          list: newPaintingList//firebase.firestore.FieldValue.arrayUnion("greater_virginia")
+        });
+        console.log(storageDestination);
+        props.firebase.removeImage(storageDestination);
+    }
+
     return (
 
         <DragDropContext
@@ -92,6 +103,8 @@ const PaintingList = props => {
                                     imageUrl={painting.imageUrl} 
                                     index={index}
                                     handleUpdateName={handleUpdateName}
+                                    storageDestination={painting.storageDestination}
+                                    removeImage={removeImage}
                                     >
                                 </Painting>)}
                             {provided.placeholder}

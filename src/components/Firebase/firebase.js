@@ -42,6 +42,18 @@ class Firebase {
     }
     // *** Auth API ***
  
+    removeImage = async (storageDest) => {
+        try{
+            console.log(storageDest);
+            const remove =  await this.storage.ref().child(storageDest).delete();
+            console.log(remove);
+            return 'Image deleted';
+        }
+        catch(err){
+            return err;
+        }
+    }
+
     doCreateUserWithEmailAndPassword = (email, password) => this.auth.createUserWithEmailAndPassword(email, password);
 
     doSignInWithEmailAndPassword = (email, password) => this.auth.signInWithEmailAndPassword(email, password);
