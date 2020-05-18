@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { withFirebase } from '../Firebase';
 import classes from './style.module.css'; 
 import { useAuthState } from 'react-firebase-hooks/auth';
+import TextPage from '../TextPage';
+import AdminTextPage from '../Admin/TextPage';
 
  
 
@@ -44,6 +46,13 @@ const GuestBook = props => {
 
     return(
         <div>
+            <div className={classes.TopInfo}>
+                {user ? 
+                    <AdminTextPage firebase={props.firebase.guestBookInfo}/>
+                    :
+                    <TextPage  firebase={props.firebase.guestBookInfo}/>
+                }
+            </div>
             <form onSubmit={(evt) => handleSubmit(evt)} className={classes.Form}>
                 <textarea required placeholder="Write your message here*" value={message} onChange={evt => setMessage(evt.target.value)} />
                 <div className={classes.InpInfo}>

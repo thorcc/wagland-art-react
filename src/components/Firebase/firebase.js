@@ -24,6 +24,7 @@ class Firebase {
         this.paintings = this.db.collection("index").doc("paintings");
         this.bio = this.db.collection("index").doc("bio");
         this.contact = this.db.collection("index").doc("contact");
+        this.guestBookInfo = this.db.collection("index").doc("guest-book");
         this.guestBook = this.db.collection("guest-book");     
         this.storage = app.storage();
         this.storageRef = this.storage.ref();

@@ -47,8 +47,7 @@ const TextPage = props => {
     
         const getBio = async () => {
           const res = await props.firebase.get();
-          console.log(res.data().list)
-          const data = res.data().list;
+          const data = res.data()?.list ? res.data().list : [];
           setInfo(data);
         }
     
